@@ -1,0 +1,9 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    url: jdbc:h2:mem:${nombre.base}
+    driverClassName: org.h2.Driver
+    username: ${user.base}
+    password:
