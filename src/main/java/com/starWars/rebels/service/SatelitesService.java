@@ -71,6 +71,7 @@ public class SatelitesService {
         Assert.notNull(satelliteDto, "The satellite cannot be null");
         Assert.notNull(satelliteDto.getName(), "The satellite name cannot be null");
         UbicacionSatelite ubicacionSatelite = conversionService.convert(satelliteDto, UbicacionSatelite.class);
+        Assert.notNull(ubicacionSatelite, "The satellite name cannot be null");
         ubicacionSatelite = sateliteRepository.save(ubicacionSatelite);
         return conversionService.convert(ubicacionSatelite, SatelliteDto.class);
     }

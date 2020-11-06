@@ -32,23 +32,31 @@ public class ConcatenateMenssageService {
     private void unificarMensajeDiferenteTamano(String[] mensajeA, String[] mensajeB, int tamanoA, int tamanoB, String[] mensajeResultado) {
         int diferenciaTamano = Math.max(tamanoA, tamanoB) - Math.min(tamanoA, tamanoB);
         if (validarOrderAsendente(mensajeA, mensajeB, tamanoA, diferenciaTamano)) {
-            for (int j = 0; j < tamanoA; j++) {
-                if (j >= diferenciaTamano) {
-                    mensajeResultado[j] = mensajeA[j].isEmpty() && mensajeB[j - diferenciaTamano].isEmpty() ? mensajeA[j] : (!mensajeA[j].isEmpty() ? mensajeA[j] : mensajeB[j - diferenciaTamano]);
-                } else {
-                    mensajeResultado[j] = mensajeA[j];
-                }
-
-            }
+            unificarMensajeAsendente(mensajeA, mensajeB, tamanoA, mensajeResultado, diferenciaTamano);
         } else {
-            for (int j = 0; j < tamanoA; j++) {
-                if (j <= tamanoB) {
-                    mensajeResultado[j] = mensajeA[j].isEmpty() && mensajeB[j].isEmpty() ? mensajeA[j] : (!mensajeA[j].isEmpty() ? mensajeA[j] : mensajeB[j]);
-                } else {
-                    mensajeResultado[j] = mensajeA[j];
-                }
+            unificarMensajedeDecendiente(mensajeA, mensajeB, tamanoA, tamanoB, mensajeResultado);
+        }
+    }
 
+    private void unificarMensajedeDecendiente(String[] mensajeA, String[] mensajeB, int tamanoA, int tamanoB, String[] mensajeResultado) {
+        for (int j = 0; j < tamanoA; j++) {
+            if (j <= tamanoB) {
+                mensajeResultado[j] = (mensajeA[j].isEmpty() && mensajeB[j].isEmpty()) ? mensajeA[j] : (getString(mensajeA, mensajeB, j, j));
+            } else {
+                mensajeResultado[j] = mensajeA[j];
             }
+
+        }
+    }
+
+    private void unificarMensajeAsendente(String[] mensajeA, String[] mensajeB, int tamanoA, String[] mensajeResultado, int diferenciaTamano) {
+        for (int j = 0; j < tamanoA; j++) {
+            if (j >= diferenciaTamano) {
+                mensajeResultado[j] = (mensajeA[j].isEmpty() && mensajeB[j - diferenciaTamano].isEmpty()) ? mensajeA[j] : (getString(mensajeA, mensajeB, j, j - diferenciaTamano));
+            } else {
+                mensajeResultado[j] = mensajeA[j];
+            }
+
         }
     }
 
@@ -66,9 +74,13 @@ public class ConcatenateMenssageService {
 
     private static void unificarMensajeMismoTamano(String[] nombre_a, String[] nombre_b, int i1, String[] nombre_c) {
         for (int j = 0; j < i1; j++) {
-            nombre_c[j] = nombre_a[j].isEmpty() && nombre_b[j].isEmpty() ? nombre_a[j] : (!nombre_a[j].isEmpty() ? nombre_a[j] : nombre_b[j]);
+            nombre_c[j] = nombre_a[j].isEmpty() && nombre_b[j].isEmpty() ? nombre_a[j] : getString(nombre_a, nombre_b, j, j);
 
         }
+    }
+
+    private static String getString(String[] nombre_a, String[] nombre_b, int j, int j2) {
+        return !nombre_a[j].isEmpty() ? nombre_a[j] : nombre_b[j2];
     }
 
 }
