@@ -26,9 +26,9 @@ public class TopSecretService {
 
     public MensajeResponse getLocation(RequestSatellites requestSatellites) {
         Assert.notNull(requestSatellites, "The list cannot be null");
-        List<UbicacionSatelite> filtro = satelitesService.validarSatelitesRegistrado(requestSatellites);
-        double[][] posicionamientos = satelitesService.posicionamientos(requestSatellites, filtro);
-        double[] distancias = satelitesService.distancias(requestSatellites, filtro);
+        List<UbicacionSatelite> satelitesRegistrados = satelitesService.validarSatelitesRegistrado(requestSatellites);
+        double[][] posicionamientos = satelitesService.posicionamientos(requestSatellites, satelitesRegistrados);
+        double[] distancias = satelitesService.distancias(requestSatellites, satelitesRegistrados);
         NonLinearLeastSquaresSolver solver = new NonLinearLeastSquaresSolver(new TrilaterationFunction(posicionamientos, distancias), new LevenbergMarquardtOptimizer());
         LeastSquaresOptimizer.Optimum optimum = solver.solve();
         double[] doubles = optimum.getPoint().toArray();
