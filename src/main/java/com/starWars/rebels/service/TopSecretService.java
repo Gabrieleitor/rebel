@@ -7,6 +7,10 @@ import com.starWars.rebels.dto.MensajeResponse;
 import com.starWars.rebels.dto.Position;
 import com.starWars.rebels.dto.RequestSatellites;
 import com.starWars.rebels.dto.Satellite;
+import com.starWars.rebels.service.interfaces.ConcatenarMenssageService;
+import com.starWars.rebels.service.interfaces.ConsultarSatellites;
+import com.starWars.rebels.service.interfaces.ObtenerDistancias;
+import com.starWars.rebels.service.interfaces.ObtenerPocicionamientos;
 import org.apache.commons.math3.fitting.leastsquares.LeastSquaresOptimizer;
 import org.apache.commons.math3.fitting.leastsquares.LevenbergMarquardtOptimizer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,13 +26,22 @@ public class TopSecretService {
     private SatelitesService satelitesService;
 
     @Autowired
-    private ConcatenateMenssageService concatenateMenssageService;
+    private ConcatenarMenssageService concatenateMenssageService;
+
+    @Autowired
+    private ObtenerPocicionamientos obtenerPocicionamientos;
+
+    @Autowired
+    private ObtenerDistancias obtenerDistancias;
+
+    @Autowired
+    private ConsultarSatellites consultarSatellites;
 
     public MensajeResponse getLocation(RequestSatellites requestSatellites) {
         Assert.notNull(requestSatellites, "The list cannot be null");
-        List<UbicacionSatelite> satelitesRegistrados = satelitesService.validarSatelitesRegistrado(requestSatellites);
-        double[][] posicionamientos = satelitesService.posicionamientos(requestSatellites, satelitesRegistrados);
-        double[] distancias = satelitesService.distancias(requestSatellites, satelitesRegistrados);
+        List<UbicacionSatelite> satelitesRegistrados = consultarSatellites.validarSatelitesRegistrado(requestSatellites);
+        double[][] posicionamientos = obtenerPocicionamientos.posicionamientos(requestSatellites, satelitesRegistrados);
+        double[] distancias = obtenerDistancias.distancias(requestSatellites, satelitesRegistrados);
         NonLinearLeastSquaresSolver solver = new NonLinearLeastSquaresSolver(new TrilaterationFunction(posicionamientos, distancias), new LevenbergMarquardtOptimizer());
         LeastSquaresOptimizer.Optimum optimum = solver.solve();
         double[] doubles = optimum.getPoint().toArray();

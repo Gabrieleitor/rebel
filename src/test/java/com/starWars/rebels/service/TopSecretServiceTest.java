@@ -4,7 +4,7 @@ import com.starWars.rebels.domain.UbicacionSatelite;
 import com.starWars.rebels.dto.MensajeResponse;
 import com.starWars.rebels.dto.RequestSatellites;
 import com.starWars.rebels.dto.Satellite;
-import com.starWars.rebels.repository.UbicacionSateliteRepository;
+import com.starWars.rebels.service.interfaces.ConcatenarMenssageService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,13 +27,17 @@ class TopSecretServiceTest {
     private TopSecretService topSecretService;
 
     @Mock
-    private SatelitesService satelitesService;
+    private ConcatenarMenssageService concatenateMenssageService;
 
     @Mock
-    private ConcatenateMenssageService concatenateMenssageService;
+    private ObtenerPocicionamientosSatelites obtenerPocicionamientosSatelites;
 
     @Mock
-    private UbicacionSateliteRepository sateliteRepository;
+    private ObtenerDistanciasSatelites obtenerDistanciasSatelites;
+
+    @Mock
+    private ConsultarSatellitesRegistrados consultarSatellitesRegistrados;
+
 
     private static final double POSICION_X = -3.07862335999692;
     private static final double POSICION_Y = -3.004900038343084;
@@ -51,9 +55,9 @@ class TopSecretServiceTest {
         listaSatellite.add(Satellite.builder().message(ARREGLO_MENSAJE_DOS).build());
         List<UbicacionSatelite> ubicacionSatelites = new ArrayList<>();
         RequestSatellites requestSatellites = RequestSatellites.builder().satellites(listaSatellite).build();
-        when(satelitesService.validarSatelitesRegistrado(requestSatellites)).thenReturn(ubicacionSatelites);
-        when(satelitesService.posicionamientos(any(), any())).thenReturn(POSICIONES_SATELITES);
-        when(satelitesService.distancias(any(), any())).thenReturn(DISTANCIAS_SATELITES);
+        when(consultarSatellitesRegistrados.validarSatelitesRegistrado(requestSatellites)).thenReturn(ubicacionSatelites);
+        when(obtenerPocicionamientosSatelites.posicionamientos(any(), any())).thenReturn(POSICIONES_SATELITES);
+        when(obtenerDistanciasSatelites.distancias(any(), any())).thenReturn(DISTANCIAS_SATELITES);
         when(concatenateMenssageService.getMessage(any())).thenReturn(MENSAJE_RESPUESTA);
         //when
         MensajeResponse mensajeResponse = topSecretService.getLocation(requestSatellites);

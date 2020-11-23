@@ -1,13 +1,15 @@
 package com.starWars.rebels.service;
 
+import com.starWars.rebels.service.interfaces.ConcatenarMenssageService;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import java.util.List;
 
 @Service
-public class ConcatenateMenssageService {
+public class ConcatenarMenssageSatellite implements ConcatenarMenssageService {
 
+    @Override
     public String getMessage(List<String[]> messages) {
         Assert.notEmpty(messages, "The list of messages cannot be null");
         String[] primerMensaje = messages.get(0);

@@ -25,41 +25,6 @@ public class SatelitesService {
     @Autowired
     private ConversionService conversionService;
 
-
-    public double[][] posicionamientos(RequestSatellites requestSatellites, List<UbicacionSatelite> filtro) {
-        Assert.notNull(requestSatellites.getSatellites(), "The list cannot be null");
-        Assert.notEmpty(requestSatellites.getSatellites(), "The list cannot be empty");
-        double[][] array = new double[filtro.size()][];
-        for (int i = 0; i < filtro.size(); i++) {
-            Assert.notNull(filtro.get(i), "The satellite cannot be null");
-            UbicacionSatelite row = filtro.get(i);
-            array[i] = new double[]{row.getX(), row.getY()};
-        }
-        return array;
-    }
-
-    public double[] distancias(RequestSatellites requestSatellites, List<UbicacionSatelite> filtro) {
-        Assert.isTrue(filtro.size() > 2, "There is not enough information");
-        val array = new double[filtro.size()];
-        for (int i = 0; i < filtro.size(); i++) {
-            for (Satellite ubicacion : requestSatellites.getSatellites()) {
-                Assert.notNull(requestSatellites.getSatellites().get(i).getName(), "The name satellite cannot be null");
-                if (ubicacion.getName().toUpperCase().equals(filtro.get(i).getName().toUpperCase())) {
-                    Assert.isTrue(ubicacion.getDistance() > 1, "Distance cannot be zero");
-                    array[i] = ubicacion.getDistance();
-                    break;
-                }
-            }
-
-        }
-        return array;
-    }
-
-    public List<UbicacionSatelite> validarSatelitesRegistrado(RequestSatellites requestSatellites) {
-        List<String> namesatellite = requestSatellites.getSatellites().stream().map(Satellite::getName).collect(Collectors.toList());
-       return sateliteRepository.findByNameIgnoreCaseIn(namesatellite);
-    }
-
     public SatelliteDto findById(Long id) {
         Assert.notNull(id, "The satellite id cannot be null");
         UbicacionSatelite ubicacionSatelite = sateliteRepository.findById(id)

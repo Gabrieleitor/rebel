@@ -5,6 +5,6 @@ import com.starWars.rebels.dto.RequestSatellites;
 
 import java.util.List;
 
-public interface ObtenerDistancias {
-    double[] distancias(RequestSatellites requestSatellites, List<UbicacionSatelite> ubicacionSatelites);
+public interface ObtenerPocicionamientos {
+    double[][] posicionamientos(RequestSatellites requestSatellites, List<UbicacionSatelite> ubicacionSatelites);
 }

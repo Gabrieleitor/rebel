@@ -4,12 +4,12 @@ import com.starWars.rebels.domain.InformacionSatelite;
 import com.starWars.rebels.dto.MensajeResponse;
 import com.starWars.rebels.dto.Satellite;
 import com.starWars.rebels.repository.InformacionSateliteRepository;
+import com.starWars.rebels.service.interfaces.RegistrarSatellite;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -31,6 +31,9 @@ class TopSecretSplitServiceTest {
     private InformacionSateliteRepository informacionSateliteRepository;
     @Mock
     private TopSecretService topSecretService;
+    @Mock
+    private RegistrarSatellite registrarSatellite;
+
 
     private static final String NOMBRE_SATELITE = "kenobi";
     private static final String[] ARREGLO_MENSAJE = new String[]{"este", "", "", "mensaje", "secreto"};
@@ -45,11 +48,10 @@ class TopSecretSplitServiceTest {
                 .message(ARREGLO_MENSAJE)
                 .distance(DISTACIA_SATELITE)
                 .build();
-        InformacionSatelite informacionSatelite = getInformacionSatelite();
         //when
         topSecretSplitService.registrarInformacionSatellites(satellite);
         //then
-        verify(informacionSateliteRepository).save(informacionSatelite);
+        verify(registrarSatellite).registrar(satellite);
     }
 
     private InformacionSatelite getInformacionSatelite() {

@@ -13,8 +13,9 @@ import java.util.List;
 @SpringBootTest
 @ExtendWith(MockitoExtension.class)
 class ConcatenateMenssageServiceTest {
+
     @InjectMocks
-    private ConcatenateMenssageService concatenateMenssageService;
+    private ConcatenarMenssageSatellite concatenateMenssageService;
 
     private static final String[] ARREGLO_MENSAJE_UNO = new String[]{"este", "", "", "mensaje","secreto"};
     private static final String[] ARREGLO_MENSAJE_DOS = new String[]{"", "es", "un", "", "secreto"};
